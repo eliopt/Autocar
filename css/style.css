@@ -30,6 +30,9 @@ h1 {
 	font-weight: 100;
 	margin: 0;
 }
+.pac-container {
+	margin-top: 5px;
+}
 /*
 Accueil
 */
@@ -56,8 +59,47 @@ Accueil
 	width: 400px;
 	margin-left: -200px;
 }
+.intro .introItineraire {
+	text-align: center;
+	display: inline-block;
+}
+.intro .introInput {
+	width: 300px;
+	margin-left: 50px;
+	display: inline-block;
+}
+.intro .introItemContainer {
+	height: 30px;
+	margin-top: 2px;
+	margin-bottom: 10px;
+	position: relative;
+}
+.intro .introDepart {
+	position: absolute;
+	margin-top: 13px;
+	border: 3px solid #fff;
+	height: 25px;
+	width: 25px;
+	border-radius: 50%;
+}
+.intro .introDepart:after {
+	content: "";
+	position: absolute;
+	height: 27px;
+	border-left: 3px dashed #fff;
+	bottom: -27px;
+	margin-left: -2px;
+}
+.intro .introArrivee {
+	position: absolute;
+	margin-top: 20px;
+	border: 3px solid #fff;
+	height: 25px;
+	width: 25px;
+	border-radius: 50%;
+}
 .intro form input {
-	display: block;
+	display: block;	
 	width: 100%;
 	padding: 0.5em;
 	font-size: 18px;
@@ -68,10 +110,27 @@ Accueil
 	background: rgba(255, 255, 255, 0.7);
 	box-shadow: 0px 0px 5px #000;
 }
+.intro input[type=submit] {
+	width: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: 78px;
+	background: rgb(34, 141, 255);
+	cursor: pointer;
+	color: #fff;
+	box-shadow: none;
+	border: none;
+}
+.intro input[type=submit]:hover {
+	background: rgb(24, 131, 240);
+}
+.intro input[type=submit]:active {
+	background: rgb(14, 121, 230);
+}
 .intro form input:hover {
 	box-shadow: 0px 0px 5px #444;
 }
 .intro form input:focus {
 	outline:0;
-	box-shadow: 0px 0px 5px #ccc;
+	box-shadow: 0px 0px 3px #ccc;
 }
