@@ -27,5 +27,20 @@ function introFormVerif() {
   }
 }
 function itineraire(departLocation, arriveeLocation) {
-  alert(departLocation+arriveeLocation);
+  jQuery.ajax({
+    url: 'loadItineraire.php',
+    type: 'POST',
+    data: {
+      de: departLocation,
+      a: arriveeLocation
+    },
+    dataType : 'json',
+    success: function(data, textStatus, xhr) {
+      alert(data);
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      alert(textStatus.reponseText);
+    }
+  });
+  //window.location = 'itineraire';
 }
