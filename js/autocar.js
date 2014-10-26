@@ -2,6 +2,8 @@ function introFormVerif() {
   if($('#depart').val() && $('#arrivee').val()) {
     var geocoder = new google.maps.Geocoder();
     var ok = 0;
+    var departLocation;
+    var arriveeLocation;
     geocoder.geocode( { 'address': $('#depart').val()}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         ok++;
@@ -20,27 +22,34 @@ function introFormVerif() {
         alert('Erreur, l\'adresse n\'est pas valide');
       }
     });
-    var departPremiereValeur = $('#depart').val();
-    var arriveePremiereValeur = $('#arrivee').val();
   } else {
     alert('Erreur, les champs sont vides');
   }
 }
+function extractFromAdress(components, type) {
+  for (var i = 0; i < components.length; i++)
+  for (var j = 0; j < components[i].types.length; j++)
+  if (components[i].types[j] == type) return components[i].long_name;
+  return "";
+}
 function itineraire(departLocation, arriveeLocation) {
-  jQuery.ajax({
-    url: 'loadItineraire.php',
+  alert(departLocation+arriveeLocation);
+  $.ajax({
+    url: 'http://localhost:8888/autocar/loadItineraire.php',
     type: 'POST',
     data: {
-      de: departLocation,
-      a: arriveeLocation
+      'de': ''+departLocation,
+      'a': ''+arriveeLocation
     },
-    dataType : 'json',
     success: function(data, textStatus, xhr) {
-      alert(data);
+      if(data == 'Success') {
+        window.location = 'itineraire.php';
+      } else {
+        alert('Une erreur est survenue. Veuillez réessayer.');
+      }
     },
     error: function(xhr, textStatus, errorThrown) {
-      alert(textStatus.reponseText);
+      alert('Vérifiez vos paramètres réseau.');
     }
   });
-  //window.location = 'itineraire';
 }
