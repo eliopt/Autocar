@@ -10,7 +10,7 @@ function introFormVerif() {
         departLocation = results[0].geometry.location;
         if(ok == 2) itineraire(departLocation, arriveeLocation);
       } else {
-        alert('Erreur, l\'adresse n\'est pas valide');
+        sweetAlert('Erreur', 'L\'adresse n\'est pas valide.', "error");
       }
     });
     geocoder.geocode( { 'address': $('#arrivee').val()}, function(results, status) {
@@ -19,11 +19,11 @@ function introFormVerif() {
         arriveeLocation = results[0].geometry.location;
         if(ok == 2) itineraire(departLocation, arriveeLocation);
       } else {
-        alert('Erreur, l\'adresse n\'est pas valide');
+        sweetAlert('Erreur','L\'adresse n\'est pas valide.', "error");
       }
     });
   } else {
-    alert('Erreur, les champs sont vides');
+    sweetAlert('Erreur', 'Les champs sont vides', "error");
   }
 }
 function extractFromAdress(components, type) {
@@ -33,7 +33,6 @@ function extractFromAdress(components, type) {
   return "";
 }
 function itineraire(departLocation, arriveeLocation) {
-  alert(departLocation+arriveeLocation);
   $.ajax({
     url: 'http://localhost:8888/autocar/loadItineraire.php',
     type: 'POST',
@@ -43,13 +42,13 @@ function itineraire(departLocation, arriveeLocation) {
     },
     success: function(data, textStatus, xhr) {
       if(data == 'Success') {
-        window.location = 'itineraire.php';
+        window.location = 'itineraire';
       } else {
-        alert('Une erreur est survenue. Veuillez réessayer.');
+        sweetAlert('Oooops', 'Une erreur est survenue. Veuillez réessayer.', "error");
       }
     },
     error: function(xhr, textStatus, errorThrown) {
-      alert('Vérifiez vos paramètres réseau.');
+      sweetAlert('Erreur', 'Vérifiez vos paramètres réseau.', "error");
     }
   });
 }
