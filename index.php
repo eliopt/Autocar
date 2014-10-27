@@ -15,6 +15,8 @@ try {
   <script src="./js/jquery.geocomplete.js"></script>
   <script src="./js/autocar.js"></script>
   <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/sweet-alert.js"></script> 
+  <link rel="stylesheet" type="text/css" href="./css/sweet-alert.css">
 </head>
 <body style="background:#fff;">
 	<div class="intro">
