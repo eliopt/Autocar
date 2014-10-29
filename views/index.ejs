@@ -1,15 +1,9 @@
-<?php
-try {
-    $db = new PDO('mysql:host=localhost;dbname=centrocar', 'emmanuelcoppey', 'azerty');
-} catch (PDOException $e) {
-    print 'Erreur !'.$e->getMessage().'<br/>';
-}
-?>
 <!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
   <title>Centrocar — Votre partenaire dans les trajets d'autobus</title>
+  <script src="./socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
   <script src="./js/jquery.geocomplete.js"></script>
@@ -34,7 +28,7 @@ try {
 				<input type="text" id="depart" placeholder="Départ">
 				<input type="text" id="arrivee" placeholder="Arrivée">
 			</div>
-			<input type="submit" onClick="introFormVerif();return false;" value="C'est parti !">
+			<input type="submit" onClick="introFormVerif();return false;" value="C'est parti !"> <a href="#" onClick="swal('À propos de Centrocar', 'Centrocar vous permet');" style="position:absolute;margin-top:-38px;color:#fff;margin-left:107px;">En savoir plus</a>
 		</form>
 	</div>
 	<div class="promo">
@@ -61,13 +55,6 @@ try {
 	  };
 	  map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	  var flightPlanCoordinates = [
-	<?php
-	/*$query = $db->prepare('SELECT * FROM gares LIMIT 0, 5000');
-	$query->execute();
-	while ($row = $query->fetch()) {
-		echo 'new google.maps.LatLng('.number_format($row['latitude_wgs84']).', '.number_format($row['longitude_wgs84']).'),';
-	}*/
-	?>
 	  ];
 	  var flightPath = new google.maps.Polyline({
 	    path: flightPlanCoordinates,
