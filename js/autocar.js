@@ -33,7 +33,16 @@ function extractFromAdress(components, type) {
   return "";
 }
 function itineraire(departLocation, arriveeLocation) {
-  $.ajax({
+  var socket = io.connect();
+  socket.emit('loadItineraire', {
+      'de': ''+departLocation,
+      'a': ''+arriveeLocation
+  }).on('succes', function() {
+    window.location = 'itineraire';
+  }).on('erreur', function(mes) {
+    swal(mes['titre'], mes['content'], "error");
+  });
+  /*$.ajax({
     url: 'http://localhost:8888/autocar/loadItineraire.php',
     type: 'POST',
     data: {
@@ -50,5 +59,5 @@ function itineraire(departLocation, arriveeLocation) {
     error: function(xhr, textStatus, errorThrown) {
       sweetAlert('Erreur', 'Vérifiez vos paramètres réseau.', "error");
     }
-  });
+  });*/
 }
