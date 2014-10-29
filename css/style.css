@@ -141,6 +141,31 @@ a:after {
 	background: #fff;
 }
 /*
+404
+*/
+.nFound {
+	display: block !important;
+	background: rgb(50, 50, 60);
+	color: #fff;
+	text-align: center;
+}
+.nFound .content {
+	height: 500px;
+	top: 50%;
+	margin-top: -330px;
+	position: absolute;
+	left: 50%;
+	margin-left: -300px;
+	width: 600px;
+	background: transparent;
+}
+.nFound .content h1 {
+	font-size: 300px;
+}
+.nFound .content p {
+	font-size: 30px;
+}
+/*
 -- Accueil
 */
 /*
