@@ -15,8 +15,48 @@ function extractFromAdress(components, type) {
   if (components[i].types[j] == type) return components[i].long_name;
   return "";
 }
+function check(post) {
+	var returnVar = new Array();
+	if(session.a && session.de) {
+		if(typeof post['departDate'] != 'undefined' && typeof post['retourDate'] != 'undefined' && typeof post['adultes'] != 'undefined' && typeof post['enfants'] != 'undefined') {
+			if(!isNaN(post['adultes']) && !isNaN(post['enfants'])) {
+				if(post['adultes']+post['enfants'] > 0) {
+					//returnVar = array();
+					returnVar['adultes'] = post['adultes'];
+					returnVar['enfants'] = post['enfants'];
+					returnVar['de'] = session.de;
+					returnVar['a'] = session.a;
+					if(departDate = Date.parse(post['departDate'])) {
+						returnVar['departDate'] = departDate;
+						if(post['retourDate']) {
+							if(retourDate = Date.parse(post['retourDate'])) {
+								returnVar['retourDate'] = retourDate;
+								return returnVar;
+							} else {
+								return 'Erreur, la date de retour est invalide';
+							}
+						} else {
+							returnVar['retourDate'] = '';
+							return returnVar;
+						}
+					} else {
+						return 'Erreur, la date de départ est invalide';
+					}
+				} else {
+					return 'Erreur, vous devez prendre au moins une place !';
+				}
+			} else {
+				return 'Erreur, entrez un nombre pour choisir le nombre de places !';
+			}
+		} else {
+			return 'Erreur système !';
+		}
+	} else {
+		return 'Erreur système !';
+	}
+}
 app.use(cookieParser)
-.use(session({secret: 'zetezt', store: sessionStore }))
+.use(session({secret: 'zetezt', store: sessionStore, resave:true, saveUninitialized:true}))
 .get('/', function(req, res) {
 	session = req.session;
     res.render('index.ejs', {});
@@ -107,4 +147,12 @@ io.on('connection', function (socket) {
         	socket.emit('erreur', {titre:'Ooops...', content:'Erreur système, veuillez réessayer'});
 		}
     });
+	socket.on('computeItineraire', function (post) {
+		var checkVar = check(post);
+		if(typeof checkVar === 'string') {
+			socket.emit('erreur', {titre:'Ooops...', content:checkVar});
+		} else {
+			socket.emit('succes', {itineraire:JSON.stringify(checkVar)});
+		}
+	});
 });
