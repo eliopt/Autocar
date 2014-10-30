@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Centrocar — Votre itinéraire</title>
+  <script src="./socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -101,29 +102,19 @@
 					ok = 1;
 					$('.itineraireLoader').show();
 					$('.itineraireContent').hide();
-					$.ajax({
-					    url: 'http://localhost:8888/autocar/computeItineraire.php',
-					    type: 'POST',
-					    data: {
+					var socket = io.connect();
+					socket.emit('computeItineraire', {
 					      'departDate': $('.departDate').val(),
 					      'retourDate': $('.retourDate').val(),
 					      'adultes': $('.adultes').val(),
 					      'enfants': $('.enfants').val()
-					    },
-					    success: function(data, textStatus, xhr) {
-					      if(data.indexOf('Erreur') > -1) {
-					      	swal(data, '', "error");
-					      	prev('itineraire');
-					      } else {
-					      	$('.itineraireContent').text(data);
-					      	$('.itineraireContent').show();
-					        $('.itineraireLoader').hide();
-					      }
-					    },
-					    error: function(xhr, textStatus, errorThrown) {
-					      prev('itineraire');
-					      swal('Vérifiez vos paramètres réseau.', '', "error");
-					    }
+					}).on('succes', function(data) {
+					    $('.itineraireContent').text(data['itineraire']);
+					    $('.itineraireContent').show();
+					    $('.itineraireLoader').hide();
+					}).on('erreur', function(mes) {
+						prev('itineraire');
+					    swal(mes['titre'], mes['content'], "error");
 					});
 				} else {
 					swal('Vous devez prendre au moins une place !', '', "error");
@@ -163,7 +154,6 @@
 	    $input.find('i').hide();
 	  }
 	});
-
 	</script>
 </body>
 </html>
